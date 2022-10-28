@@ -63,7 +63,31 @@ select optional features.  Here are some terse instructions:
 The original Makefiles are in the source tree and can still be used as
 described in the tutorial if preferred.
 
-### Experimental Surface/Subsurface Mode ###
+## Run using Docker ##
+
+If you have [Docker](https://www.docker.com/) installed, you can run DVHSM inside of a contaner instead of following the steps above.
+
+Setup:
+
+```sh
+docker compose up --build
+# Wait for the message:
+# "Run 'docker compose run model bash' to open an interactive shell in this container."
+docker compose run model bash
+mkdir -p /app/build
+cd /app/build
+cmake -D CMAKE_BUILD_TYPE:STRING=Release -D NETCDF_LIBRARIES=$(nc-config --prefix) ..
+sh ../example_configuration.sh  # or use your own configuration
+cmake --build .
+```
+
+You should now be able to run DHSVM:
+
+```sh
+/app/build/DHSVM/sourcecode/DHSVM <inputfile>
+```
+
+## Experimental Surface/Subsurface Mode ##
 
 The normal DHSVM surface/subsurface routing scheme uses 4 neighbors
 and directs cell outflow to all down-gradient neighbors ("D4").  Another
@@ -76,7 +100,7 @@ routing add this option
     
 to the configuration. D4 is the default.  
 
-### Snow-only mode ###
+## Snow-only mode ##
 
 If DHSVM is configured with this option,
 
